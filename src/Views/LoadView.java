@@ -1,76 +1,60 @@
 package Views;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.JProgressBar;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.FontFormatException;
+import java.io.IOException;
 
-public class Login extends JFrame {
-
-    JFrame dashboard;
+public class LoadView extends JFrame {
     JProgressBar progreso;
+    JPanel Panel = new JPanel();
 
-    JPanel LoginPanel = new JPanel();
-    ImageIcon image = new ImageIcon(new ImageIcon("src/Views/assets/login_welcome.jpg").getImage().getScaledInstance(575, 480, Image.SCALE_SMOOTH));
-    ImageIcon imagebrand = new ImageIcon(new ImageIcon("src/Views/assets/brand.png").getImage().getScaledInstance(220, 75, Image.SCALE_SMOOTH));
-    Image imagetooth = new ImageIcon("src/Views/assets/logo.png").getImage();
+    int i = 0;
 
-    int i = 0, num = 0;
-
-
-    Login() throws IOException, FontFormatException {
-        super("Iniciar sesión");
+    LoadView() throws IOException {
+        super("Cargando...");
         setSize(512, 128);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setIconImage(imagetooth);
-        setLayout(null);
 
-        LoginPanel.setLayout(new GridBagLayout());
+        Panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        Insets inset = new Insets(50, 50, 50, 50);
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = inset;
+        c.fill = GridBagConstraints.BOTH;
+
         progreso = new JProgressBar(0, 2000);
-        progreso.setBounds(40, 40, 160, 30);
         progreso.setValue(0);
         progreso.setStringPainted(true);
 
+        Panel.add(progreso, c);
 
-        LoginPanel.add(progreso, c);
-
-
-        setContentPane(LoginPanel);
+        setContentPane(Panel);
     }
 
-    private void login() throws IOException, FontFormatException {
+    public void iterate() throws IOException, FontFormatException {
 
-        this.dispose();
-        dashboard = new RecepcionistaView();
-
-    }
-
-    public void iterate() {
         while (i <= 2000) {
             progreso.setValue(i);
             i = i + 20;
             try {
-                Thread.sleep(150);
+                Thread.sleep(20);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        this.dispose();
+        new MainView();
     }
 
-
     public static void main(String[] args) throws IOException, FontFormatException {
-        Login login = new Login();
-        login.setVisible(true);
-        login.iterate();
+        LoadView loadView = new LoadView();
+        loadView.setVisible(true);
+        loadView.iterate();
     }
 }
